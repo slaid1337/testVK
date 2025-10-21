@@ -229,7 +229,7 @@ document.addEventListener('contextmenu', event => event.preventDefault());
                 })
                 .then( (data) => { 
                     if (data.result) {
-                    window.unityInstance.SendMessage('CGWebPlatformSDK', 'OnRewarded', id);
+                    window.unityInstance.SendMessage('CGWebPlatformSDK', 'OnGetRewardCallback', id);
                     console.log('Rewarded! Id: ' + id);
                     } else {
                     // Ошибка
