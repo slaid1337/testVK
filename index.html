@@ -67,18 +67,10 @@ document.addEventListener('contextmenu', event => event.preventDefault());
         canvas.style.height = 100 +"%";
         canvas.style.width = 100 +"%";
       }else{
-        var ratio = document.documentElement.clientWidth / document.documentElement.clientHeight;
-        if (ratio < 1) {
-            container.className = "unity-mobile";
+        
             config.devicePixelRatio = 1;
             canvas.style.height = 100 +"%";
-            canvas.style.width = 100 +"%";
-            
-        }
-        else{
-            canvas.style.height = 100 +"%";
-            canvas.style.width = canvas.style.height * ratio + "px";
-        }
+            canvas.style.width = 100 +"%"; 
       }
 
      
