@@ -50,8 +50,7 @@ document.addEventListener('contextmenu', event => event.preventDefault());
       // happening inside the engine, and you would instead like to size up
       // the canvas DOM size and WebGL render target sizes yourself.
       // config.matchWebGLToCanvasSize = false;
-      config.matchWebGLToCanvasSize = false;
-        Resize();
+      Resize();
         window.addEventListener(`resize`, event => {
             Resize();
         }, false);
@@ -59,10 +58,29 @@ document.addEventListener('contextmenu', event => event.preventDefault());
             var size = document.documentElement.clientHeight + 'px';
             console.log(size);
             container.style.height = size;
+        }
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        container.className = "unity-mobile";
+        // Avoid draining fillrate performance on mobile devices,
+        // and default/override low DPI mode on mobile browsers.
+        config.devicePixelRatio = 1;
+        canvas.style.height = 100 +"%";
+        canvas.style.width = 100 +"%";
+      }else{
+        var ratio = document.documentElement.clientWidth / document.documentElement.clientHeight;
+        if (ratio < 1) {
+            container.className = "unity-mobile";
             config.devicePixelRatio = 1;
             canvas.style.height = 100 +"%";
             canvas.style.width = 100 +"%";
+            
         }
+        else{
+            canvas.style.height = 100 +"%";
+            canvas.style.width = canvas.style.height * ratio + "px";
+        }
+      }
+
      
 
       loadingBar.style.display = "block";
