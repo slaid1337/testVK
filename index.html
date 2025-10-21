@@ -28,9 +28,9 @@ document.addEventListener('contextmenu', event => event.preventDefault());
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/ea153e321edf23b9a40b38d65ce41d01.loader.js";
       var config = {
-        dataUrl: buildUrl + "/74d7a8f3befb928f65510e6a46d14708.data",
-        frameworkUrl: buildUrl + "/fb100fce5ae1956fb0474f947926fc30.framework.js",
-        codeUrl: buildUrl + "/594c1b219ba39581987f472c8fa85f02.wasm",
+        dataUrl: buildUrl + "/75a89aaf26ab383777bf1d20187fe804.data",
+        frameworkUrl: buildUrl + "/021f6436d8579d1540867bd117996e29.framework.js",
+        codeUrl: buildUrl + "/1880622eab38b9455d645a543cc6a70a.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "CGWebSDK",
@@ -59,32 +59,28 @@ document.addEventListener('contextmenu', event => event.preventDefault());
             var size = document.documentElement.clientHeight + 'px';
             console.log(size);
             container.style.height = size;
-
+        }
+      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+        container.className = "unity-mobile";
+        // Avoid draining fillrate performance on mobile devices,
+        // and default/override low DPI mode on mobile browsers.
+        config.devicePixelRatio = 1;
+        canvas.style.height = 100 +"%";
+        canvas.style.width = 100 +"%";
+      }else{
+        var ratio = document.documentElement.clientWidth / document.documentElement.clientHeight;
+        if (ratio < 1) {
+            container.className = "unity-mobile";
             config.devicePixelRatio = 1;
             canvas.style.height = 100 +"%";
             canvas.style.width = 100 +"%";
-        }
-    //   if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-    //     container.className = "unity-mobile";
-    //     // Avoid draining fillrate performance on mobile devices,
-    //     // and default/override low DPI mode on mobile browsers.
-    //     config.devicePixelRatio = 1;
-    //     canvas.style.height = 100 +"%";
-    //     canvas.style.width = 100 +"%";
-    //   }else{
-    //     var ratio = document.documentElement.clientWidth / document.documentElement.clientHeight;
-    //     if (ratio < 1) {
-    //         container.className = "unity-mobile";
-    //         config.devicePixelRatio = 1;
-    //         canvas.style.height = 100 +"%";
-    //         canvas.style.width = 100 +"%";
             
-    //     }
-    //     else{
-    //         canvas.style.height = 100 +"%";
-    //         canvas.style.width = canvas.style.height * ratio + "px";
-    //     }
-    //   }
+        }
+        else{
+            canvas.style.height = 100 +"%";
+            canvas.style.width = canvas.style.height * ratio + "px";
+        }
+      }
 
       loadingBar.style.display = "block";
 
@@ -233,7 +229,7 @@ document.addEventListener('contextmenu', event => event.preventDefault());
                 })
                 .then( (data) => { 
                     if (data.result) {
-                    window.unityInstance.SendMessage('CGWebPlatformSDK', 'OnGetRewardCallback', id);
+                    window.unityInstance.SendMessage('CGWebPlatformSDK', 'OnRewarded', id);
                     console.log('Rewarded! Id: ' + id);
                     } else {
                     // Ошибка
