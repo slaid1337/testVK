@@ -28,9 +28,9 @@ document.addEventListener('contextmenu', event => event.preventDefault());
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/ea153e321edf23b9a40b38d65ce41d01.loader.js";
       var config = {
-        dataUrl: buildUrl + "/5824669a37ee71a20ff80890588408f7.data",
-        frameworkUrl: buildUrl + "/61475d0beb38e5b76825ed6f2100b177.framework.js",
-        codeUrl: buildUrl + "/92e096d1c51c5ae46a252acc27478843.wasm",
+        dataUrl: buildUrl + "/0463e6b8f56a56a1506771556b663c2f.data",
+        frameworkUrl: buildUrl + "/515d625ecc9aeb0b0f30dd51b01e733b.framework.js",
+        codeUrl: buildUrl + "/757b1e845011008f69719c8c467c8459.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "CGWebSDK",
@@ -50,7 +50,8 @@ document.addEventListener('contextmenu', event => event.preventDefault());
       // happening inside the engine, and you would instead like to size up
       // the canvas DOM size and WebGL render target sizes yourself.
       // config.matchWebGLToCanvasSize = false;
-      Resize();
+      
+        Resize();
         window.addEventListener(`resize`, event => {
             Resize();
         }, false);
@@ -67,13 +68,10 @@ document.addEventListener('contextmenu', event => event.preventDefault());
         canvas.style.height = 100 +"%";
         canvas.style.width = 100 +"%";
       }else{
-        
             config.devicePixelRatio = 1;
             canvas.style.height = 100 +"%";
             canvas.style.width = 100 +"%"; 
       }
-
-     
 
       loadingBar.style.display = "block";
 
@@ -253,6 +251,19 @@ document.addEventListener('contextmenu', event => event.preventDefault());
                     // истекло отведенное на покупку время, не хватило денег и т. д.
                     window.unityInstance.SendMessage('CGWebPlatformSDK', 'OnPurchaseFailed', err);
                 })
+                bridge.send('VKWebAppShowOrderBox', { 
+                type: 'item',
+                item: id
+                })
+                .then((data) => {
+                    if (data.success) {
+                    // Оплата голосами прошла успешно
+                    window.unityInstance.SendMessage('CGWebPlatformSDK', 'PurchaseSuccesCallback', id);
+                }})
+                .catch((error) => {
+                    // Ошибка
+                    console.log(error);
+                });
             }
 
             window.onunload = function (e) {
