@@ -240,18 +240,7 @@ document.addEventListener('contextmenu', event => event.preventDefault());
 
             function buy(id) {
                 console.log(id);
-                payments.purchase(id).then(purchase => {
-                    var data = { "id": id, "token": purchase.purchaseToken };
-                    // Покупка успешно совершена!
-                    console.log(id);
-                    window.unityInstance.SendMessage('CGWebPlatformSDK', 'OnPurchaseSucces', JSON.stringify(data));
-                }).catch(err => {
-                    // Покупка не удалась: в консоли разработчика не добавлен товар с таким id,
-                    // пользователь не авторизовался, передумал и закрыл окно оплаты,
-                    // истекло отведенное на покупку время, не хватило денег и т. д.
-                    window.unityInstance.SendMessage('CGWebPlatformSDK', 'OnPurchaseFailed', err);
-                })
-                bridge.send('VKWebAppShowOrderBox', { 
+                vkBridge.send('VKWebAppShowOrderBox', { 
                 type: 'item',
                 item: id
                 })
